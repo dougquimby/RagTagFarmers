@@ -139,19 +139,20 @@
     font-size: 21px;
     font-weight: 650;
     color: var(--primary);
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--primary-soft);
   }
 
-  /* Collapsible sections: h2 is a toggle button; .section-body hides when collapsed. */
+  /* Collapsible sections: h2 is a toggle button; .section-body hides when collapsed.
+     The button spans the whole header row, so clicking anywhere on the header toggles. */
   .section-toggle {
-    display: inline-flex;
-    align-items: baseline;
+    display: flex;
+    align-items: center;
     gap: 8px;
+    width: 100%;
     margin: 0;
-    padding: 0;
+    padding: 4px 0 10px;
     background: none;
     border: none;
+    border-bottom: 2px solid var(--primary-soft);
     font: inherit;
     color: inherit;
     text-align: left;
