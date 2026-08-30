@@ -535,6 +535,50 @@
         </div>
       </section>
 
+      <section class="report-section open" id="league-history">
+        <h2><button class="section-toggle" type="button" aria-expanded="true" aria-controls="body-league-history">League History</button></h2>
+        <div class="section-body" id="body-league-history">
+        <p>A running record of the league's champions and how each season finished.
+           New seasons are added as the league grows; the most recent season appears first.</p>
+        <div class="subsection">Champions</div>
+        <table>
+          <thead>
+            <tr><th class="num">Season</th><th>Champion</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2026</td><td><span class="badge warn">TBD</span></td></tr>
+          </tbody>
+        </table>
+        <div class="subsection">Final standings</div>
+        <p>Placeholder for the 2026 season — final positions are filled in after the season
+           concludes. Once results are in, sort by Finish to see the order teams placed.</p>
+        <div class="table-scroll">
+        <table class="sortable-table" id="league-history-standings-table">
+          <thead>
+            <tr>
+              <th class="num">Season</th>
+              <th class="num">Finish</th>
+              <th>Manager</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2026</td><td class="num">TBD</td><td>Doug</td></tr>
+            <tr><td>2026</td><td class="num">TBD</td><td>Josh</td></tr>
+            <tr><td>2026</td><td class="num">TBD</td><td>Scott</td></tr>
+            <tr><td>2026</td><td class="num">TBD</td><td>Eddie</td></tr>
+            <tr><td>2026</td><td class="num">TBD</td><td>Brandon</td></tr>
+            <tr><td>2026</td><td class="num">TBD</td><td>Rudy</td></tr>
+            <tr><td>2026</td><td class="num">TBD</td><td>Justin</td></tr>
+            <tr><td>2026</td><td class="num">TBD</td><td>Kyle</td></tr>
+            <tr><td>2026</td><td class="num">TBD</td><td>Roger</td></tr>
+            <tr><td>2026</td><td class="num">TBD</td><td>Pete</td></tr>
+            <tr><td>2026</td><td class="num">TBD</td><td>Jacob</td></tr>
+          </tbody>
+        </table>
+        </div>
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -630,6 +674,10 @@
       'past-keepers-table': [
         { col: 1, dir: 'asc' },   // Manager (A–Z)
         { col: 0, dir: 'desc' }   // Season (most recent first)
+      ],
+      'league-history-standings-table': [
+        { col: 0, dir: 'desc' },  // Season (most recent first)
+        { col: 1, dir: 'asc' }    // Finish (1st–12th)
       ]
     };
 
