@@ -142,6 +142,31 @@
     padding-bottom: 10px;
     border-bottom: 2px solid var(--primary-soft);
   }
+
+  /* Collapsible sections: h2 is a toggle button; .section-body hides when collapsed. */
+  .section-toggle {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .section-toggle:hover { background: var(--primary-soft); border-radius: 5px; }
+  .section-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .section-toggle::before {
+    content: "\25B6";
+    font-size: 10px;
+    color: var(--accent);
+    transition: transform .15s ease;
+  }
+  .section-toggle[aria-expanded="true"]::before { transform: rotate(90deg); }
+  .report-section:not(.open) .section-body { display: none; }
   .subsection { margin: 22px 0 8px; font-size: 16px; font-weight: 650; color: var(--ink); }
   p { margin: 8px 0; }
   a { color: var(--accent); }
@@ -304,6 +329,8 @@
     }
     .report-section:first-child { break-before: auto; }
     .report-section h2 { break-after: avoid; }
+    .section-toggle::before { content: none; }
+    .section-toggle:hover { background: none; }
     thead { display: table-header-group; }
     tr { break-inside: avoid; }
     .stat-grid, .callout, pre, table { break-inside: avoid; }
@@ -337,8 +364,9 @@
 
     <main class="content">
 
-      <section class="report-section" id="payment">
-        <h2>Payment</h2>
+      <section class="report-section open" id="payment">
+        <h2><button class="section-toggle" type="button" aria-expanded="true" aria-controls="body-payment">Payment</button></h2>
+        <div class="section-body" id="body-payment">
         <p>Entry for the Rag Tag Farmers season is a flat <strong>$100</strong> per manager,
            due before the draft. The full <strong>$1,200</strong> entry pool is paid out
            to the season's winners as listed below.</p>
@@ -365,10 +393,12 @@
         <div class="callout ok"><span class="callout-title">How to pay</span>
           Send the $100 entry fee via <strong>Venmo</strong> to <strong><a href="https://account.venmo.com/u/Douglas-Quimby-1">@Douglas-Quimby-1</a></strong> before the draft.
         </div>
+        </div>
       </section>
 
-      <section class="report-section" id="keeper-rules">
-        <h2>Keeper League Rules</h2>
+      <section class="report-section open" id="keeper-rules">
+        <h2><button class="section-toggle" type="button" aria-expanded="true" aria-controls="body-keeper-rules">Keeper League Rules</button></h2>
+        <div class="section-body" id="body-keeper-rules">
         <p>This is a keeper league. Managers may carry players over from one season
            to the next, subject to the limits and costs below.</p>
         <table>
@@ -392,10 +422,12 @@
           date passes, keeper selections are <strong>final — no changes of any kind are
           allowed, including for injuries</strong>.
         </div>
+        </div>
       </section>
 
-      <section class="report-section" id="rule-changes">
-        <h2>Rule Changes</h2>
+      <section class="report-section open" id="rule-changes">
+        <h2><button class="section-toggle" type="button" aria-expanded="true" aria-controls="body-rule-changes">Rule Changes</button></h2>
+        <div class="section-body" id="body-rule-changes">
         <p>Proposed rule changes are put to a vote <strong>on the day of the
            draft</strong>.
         </p>
@@ -404,10 +436,12 @@
           rule. Any rule change that passes takes effect the <strong>following
           season</strong> — it does not apply mid-season.
         </div>
+        </div>
       </section>
 
-      <section class="report-section" id="past-keepers">
-        <h2>Past Keepers</h2>
+      <section class="report-section open" id="past-keepers">
+        <h2><button class="section-toggle" type="button" aria-expanded="true" aria-controls="body-past-keepers">Past Keepers</button></h2>
+        <div class="section-body" id="body-past-keepers">
         <p>A running record of keepers by season. Each manager may keep up to
            <strong>2</strong> players; the round shown is the draft round the
            keeper occupies after any same-round bump.</p>
@@ -431,10 +465,12 @@
           </tbody>
         </table>
         </div>
+        </div>
       </section>
 
-      <section class="report-section" id="draft">
-        <h2>Draft</h2>
+      <section class="report-section open" id="draft">
+        <h2><button class="section-toggle" type="button" aria-expanded="true" aria-controls="body-draft">Draft</button></h2>
+        <div class="section-body" id="body-draft">
         <p>The league uses a <strong>snake draft</strong>. The pick order is set before the
            draft begins and cannot be changed during it.</p>
         <div class="stat-grid">
@@ -477,10 +513,12 @@
         <div class="callout bad"><span class="callout-title">No pick trading</span>
           Picks are locked once the order is set. Trading draft picks is <strong>not allowed</strong>.
         </div>
+        </div>
       </section>
 
-      <section class="report-section" id="settings">
-        <h2>Non-Standard Settings</h2>
+      <section class="report-section open" id="settings">
+        <h2><button class="section-toggle" type="button" aria-expanded="true" aria-controls="body-settings">Non-Standard Settings</button></h2>
+        <div class="section-body" id="body-settings">
         <p>These settings differ from the platform defaults. All other scoring and
            roster rules follow the standard league configuration.</p>
         <table>
@@ -496,6 +534,7 @@
             <tr><td>FAAB</td><td><span class="badge ok">Enabled</span></td><td>Free-agent auction budget in effect</td></tr>
           </tbody>
         </table>
+        </div>
       </section>
 
     </main>
@@ -539,7 +578,15 @@
 
     links.forEach(function (link) {
       link.addEventListener('click', function () {
-        setActive(link.getAttribute('href').slice(1));
+        var id = link.getAttribute('href').slice(1);
+        // Make sure the destination is visible: expand it if the user collapsed it.
+        var section = document.getElementById(id);
+        var toggle = section ? section.querySelector('.section-toggle') : null;
+        if (section && toggle && !section.classList.contains('open')) {
+          section.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+        }
+        setActive(id);
       });
     });
 
@@ -562,6 +609,18 @@
       if (mobileMq.addEventListener) mobileMq.addEventListener('change', applyTocState);
       else if (mobileMq.addListener) mobileMq.addListener(applyTocState);
     }
+  })();
+
+  // Collapse/expand a section by clicking its heading.
+  (function () {
+    document.querySelectorAll('.report-section').forEach(function (section) {
+      var toggle = section.querySelector('.section-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', function () {
+        var open = section.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(open));
+      });
+    });
   })();
 
   // Click a column header on a .sortable-table to sort its rows (A–Z / 1–9, click again to reverse).
