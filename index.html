@@ -1,10 +1,4 @@
 <!DOCTYPE html>
-<!--
-  Rag Tag Farmers — Fantasy Football League report (rules & settings).
-  Built from tools/report-template.html. Regenerate the PDF with:
-      powershell -NoProfile -ExecutionPolicy Bypass -File tools\print-to-pdf.ps1 -Html Reports\rag-tag-farmers-league.html
-  (The PDF is written next to this HTML file.)
--->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -93,6 +87,16 @@
     letter-spacing: 1.4px;
     text-transform: uppercase;
     color: var(--muted);
+    /* Rendered as a <button> so it can collapse the TOC on mobile; neutralize
+       the button chrome so it reads as a plain label on desktop. */
+    display: block;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    text-align: left;
+    cursor: default;
+    pointer-events: none;
   }
   .toc ol { margin: 0; padding: 0; list-style: none; counter-reset: toc; }
   .toc li { counter-increment: toc; margin: 2px 0; }
@@ -221,6 +225,39 @@
     text-align: center;
   }
 
+  /* ---------- Mobile (single column; TOC collapses to reclaim width) ---------- */
+  @media screen and (max-width: 820px) {
+    .report-body { grid-template-columns: 1fr; gap: 16px; padding: 18px 14px 44px; }
+    .report-header { padding: 22px 18px 18px; gap: 18px; }
+    .report-header h1 { font-size: 24px; }
+    .toc { position: static; max-height: none; overflow: visible; border: none; background: none; padding: 0; }
+    .toc .toc-title {
+      margin: 0;
+      padding: 11px 2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--primary);
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      pointer-events: auto;
+    }
+    .toc .toc-title::after { content: "\25B6"; font-size: 10px; margin-left: 8px; }
+    .toc.open .toc-title::after { content: "\25BC"; }
+    .toc ol { display: none; flex-wrap: wrap; gap: 6px 10px; padding: 12px 2px 4px; }
+    .toc.open ol { display: flex; }
+    .toc a {
+      padding: 5px 11px;
+      font-size: 12.5px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--card);
+    }
+    .toc a.active { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
+    .report-section { padding: 18px 16px 22px; }
+    .report-footer { padding: 0 18px 30px; }
+  }
+
   /* ---------- Print / PDF ---------- */
   @page {
     size: A4;
@@ -280,8 +317,8 @@
 
   <div class="report-body">
     <nav class="toc" aria-label="Table of contents">
-      <p class="toc-title">Contents</p>
-      <ol><!-- auto-populated from section headings --></ol>
+      <button class="toc-title" type="button" aria-expanded="true" aria-controls="toc-list">Contents</button>
+      <ol id="toc-list"><!-- auto-populated from section headings --></ol>
     </nav>
 
     <main class="content">
@@ -499,6 +536,26 @@
         setActive(link.getAttribute('href').slice(1));
       });
     });
+
+    // Mobile: the TOC title collapses/expands the list so the content gets full width.
+    var toc = document.querySelector('.toc');
+    var tocTitle = toc ? toc.querySelector('.toc-title') : null;
+    var mobileMq = window.matchMedia('(max-width: 820px)');
+    function applyTocState() {
+      if (!tocTitle) return;
+      var expanded = !mobileMq.matches; // expanded on desktop, collapsed by default on mobile
+      toc.classList.toggle('open', expanded);
+      tocTitle.setAttribute('aria-expanded', String(expanded));
+    }
+    if (tocTitle) {
+      applyTocState();
+      tocTitle.addEventListener('click', function () {
+        var open = toc.classList.toggle('open');
+        tocTitle.setAttribute('aria-expanded', String(open));
+      });
+      if (mobileMq.addEventListener) mobileMq.addEventListener('change', applyTocState);
+      else if (mobileMq.addListener) mobileMq.addListener(applyTocState);
+    }
   })();
 </script>
 </body>
