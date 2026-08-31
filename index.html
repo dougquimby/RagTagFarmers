@@ -189,7 +189,8 @@
   }
   tbody tr:nth-child(even) { background: #f7f9fc; }
   tbody tr:hover { background: var(--primary-soft); }
-  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }  
+  td.date, th.date {font-variant-numeric: tabular-nums; }
   tfoot td { font-weight: 700; border-top: 2px solid var(--line); background: #f0f3f8; }
 
   /* Wide tables: scroll horizontally on small screens instead of squishing or overflowing */
@@ -379,7 +380,7 @@
         <div class="subsection">Season payouts</div>
         <table>
           <thead>
-            <tr><th>Placement</th><th>Payout</th></tr>
+            <tr><th>Placement</th><th class="num";>Payout</th></tr>
           </thead>
           <tbody>
             <tr><td>1st in the playoffs</td><td class="num">$800</td></tr>
@@ -489,7 +490,7 @@
         <div class="subsection">Draft order (placeholder - will be finalized when we have a 12th member)</div>
         <table>
           <thead>
-            <tr><th style="width: 10%;">Pick</th><th>Manager</th></tr>
+            <tr><th style="width: 100px;">Pick</th><th>Manager</th></tr>
           </thead>
           <tbody>
             <tr><td>1</td><td>Doug</td></tr>
@@ -503,7 +504,7 @@
             <tr><td>9</td><td>Roger</td></tr>
             <tr><td>10</td><td>Pete</td></tr>
             <tr><td>11</td><td>Jacob</td></tr>
-            <tr><td>12</td><td></td></tr>
+            <tr><td>12</td><td>Tim</td></tr>
           </tbody>
         </table>
         <div class="callout ok"><span class="callout-title">Draft format</span>
@@ -544,7 +545,7 @@
         <div class="subsection">Champions</div>
         <table>
           <thead>
-            <tr><th class="num">Season</th><th>Champion</th></tr>
+            <tr><th class="date" style="width: 100px;">Season</th><th>Champion</th></tr>
           </thead>
           <tbody>
             <tr><td>2026</td><td><span class="badge warn">TBD</span></td></tr>
@@ -557,8 +558,8 @@
         <table class="sortable-table" id="league-history-standings-table">
           <thead>
             <tr>
-              <th class="num">Season</th>
-              <th class="num">Finish</th>
+              <th class="date" style="width: 100px;">Season</th>
+              <th class="num" style="width: 100px;">Finish</th>
               <th>Manager</th>
             </tr>
           </thead>
@@ -574,6 +575,7 @@
             <tr><td>2026</td><td class="num">TBD</td><td>Roger</td></tr>
             <tr><td>2026</td><td class="num">TBD</td><td>Pete</td></tr>
             <tr><td>2026</td><td class="num">TBD</td><td>Jacob</td></tr>
+            <tr><td>2026</td><td class="num">TBD</td><td>Tim</td></tr>
           </tbody>
         </table>
         </div>
