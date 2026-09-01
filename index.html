@@ -256,9 +256,19 @@
   }
   pre code { background: none; border: none; padding: 0; color: inherit; }
 
-  /* Embedded video: the width/height attributes (640×360) are the intrinsic size, but
-     on narrow screens scale down to fit the container while keeping the aspect ratio. */
-  video { max-width: 100%; height: auto; display: block; margin: 14px auto; }
+  /* Embedded video: sized entirely from CSS so it carries no fixed minimum width.
+     width:100% fills the container; max-width caps it at a comfortable display size
+     (a downscale from the 1050px source, so it stays crisp); aspect-ratio matches the
+     source (1050×796) so it scales without distortion.
+     Unlike width/height attributes, this has no min-content floor, so it never
+     forces the column wider than the viewport. */
+  video {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 1050 / 796;
+    margin: 14px auto;
+  }
 
   /* ---------- Footer ---------- */
   .report-footer {
@@ -518,7 +528,7 @@
           Picks are locked once the order is set. Trading draft picks is <strong>not allowed</strong>.
         </div>
          <div>
-          <video width="640" height="360" controls>
+          <video controls>
             <source src="DraftOrder.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
