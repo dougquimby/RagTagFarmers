@@ -256,18 +256,14 @@
   }
   pre code { background: none; border: none; padding: 0; color: inherit; }
 
-  /* Embedded video: sized entirely from CSS so it carries no fixed minimum width.
-     width:100% fills the container; max-width caps it at a comfortable display size
-     (a downscale from the 1050px source, so it stays crisp); aspect-ratio matches the
-     source (1050×796) so it scales without distortion.
-     Unlike width/height attributes, this has no min-content floor, so it never
-     forces the column wider than the viewport. */
+  /* Embedded video: fills the content column like other elements.
+     aspect-ratio matches the source (1050×796) so it scales without distortion.
+     No min-content floor, so it never forces the column wider than the viewport. */
   video {
     display: block;
     width: 100%;
-    max-width: 640px;
     aspect-ratio: 1050 / 796;
-    margin: 14px auto;
+    margin: 14px 0;
   }
 
   /* ---------- Footer ---------- */
